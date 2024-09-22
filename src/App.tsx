@@ -1,35 +1,39 @@
-import { Button } from "@/components/ui/button"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+import { createContext, useEffect, useState } from "react"
+import Card from "./components/custom/Card"
+import { axiosRequest } from "./API/card_api";
 
-export default function App() {
+export const DataContext = createContext([]);
+
+function App() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosRequest.get('/');
+        setData(response.data)
+
+        console.log((await response).data)
+      } catch (error) {
+        console.log(error);
+        throw error;
+      };
+    }
+    fetchData();
+  }, [])
+
   return (
     <>
-    <h1 className="text-center text-3xl font-bold my-10">Welcome here</h1>
-    <div className="m-10">
-      <Accordion type="single" collapsible>
-        <AccordionItem value="item-1">
-          <AccordionTrigger className="text-xl font-bold">Hello</AccordionTrigger>
-          <AccordionContent>
-            It's a pleasure to us to meet you, hope you're ok !
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="item-2">
-          <AccordionTrigger className="text-xl font-bold">Ready ?</AccordionTrigger>
-          <AccordionContent>
-            That's was just a single example using React with tailwind + shadcn, you can delete this content file abd get starded your projet !
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    
-    </div>
-    
-    <Button className="my-10">Next Step</Button>
+      <h2 className="text-3xl md:text-5xl underline text-primary text-center font-bold pt-20">
+        Products
+      </h2>
+        
+      <DataContext.Provider value={data}>
+        <div className="p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+          <Card />
+        </div>
+      </DataContext.Provider>
     </>
   )
 }
+
+export default App
