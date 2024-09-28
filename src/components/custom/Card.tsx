@@ -21,10 +21,12 @@ const Card = () => {
 
     return (
         <>
-            {
+            { products ?
                 products.map((product) => {
                     return (
-                        <div className="relative my-8 flex w-full max-w-xs flex-col overflow-hidden rounded-lg bg-white shadow">
+                        <div 
+                            className="relative my-8 flex w-full max-w-xs min-w-72 flex-col overflow-hidden rounded-lg bg-white shadow"
+                        >
                             <a className="relative py-4 border-b flex h-56 overflow-hidden rounded-xl shadow-inner shadow-primary-50" href="#">
                                 <img 
                                     className="object-contain w-full h-full" 
@@ -35,12 +37,12 @@ const Card = () => {
 
                             <div className="flex flex-col gap-2 p-3">
                                 <a href="#">
-                                    <h5 className="text-xl tracking-tight text-slate-900 font-medium text-center">
+                                    <h5 className="text-xl tracking-tight text-slate-900 font-semibold text-center">
                                         {product.title}
                                     </h5>
                                 </a>
 
-                                <p className="text text-primary/50 truncate-text ">
+                                <p className="text text-sm-primary/50 truncate-text ">
                                     {product.description}
                                 </p>
 
@@ -79,7 +81,7 @@ const Card = () => {
                             </div>
                         </div>
                     )
-                })
+                }) : <h1>Waiting...</h1>
             }
         </>
     )
